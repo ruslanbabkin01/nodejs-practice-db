@@ -6,6 +6,8 @@ const asyncHandler = require("express-async-handler");
 
 const filmsController = require("../controllers/FilmsController");
 
+const rolesMiddleware = require("../middlewares/rolesMiddleware");
+
 //додати фільм
 filmsRouter.post(
   "/films",
@@ -17,7 +19,11 @@ filmsRouter.post(
 );
 
 //отримати всі фільми
-filmsRouter.get("/films", asyncHandler(filmsController.getAll));
+filmsRouter.get(
+  "/films",
+  rolesMiddleware(["ADMIN"]),
+  asyncHandler(filmsController.getAll)
+);
 
 //отримати один фільм
 filmsRouter.get("/films/:id", asyncHandler(filmsController.getOneFilm));
