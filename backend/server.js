@@ -3,13 +3,6 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 require("colors");
-// const asyncHandler = require("express-async-handler");
-// const bcrypt = require("bcrypt");
-// const generateToken = require("../helpers/generateToken");
-// const auth = require("./middlewares/auth");
-
-// const usersModel = require("./models/usersModel");
-// const rolesModel = require("./models/rolesModel");
 
 const path = require("path");
 const configPath = path.join(__dirname, "..", "config", ".env");
