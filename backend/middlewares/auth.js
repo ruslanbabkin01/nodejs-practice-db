@@ -16,7 +16,7 @@ module.exports = async (req, res, next) => {
     }
 
     //  розшифровуємо токен
-    const { data: ID } = jwt.verify(token, "pizza");
+    const { data: ID } = jwt.verify(token, process.env.SECRET_KEY);
     const user = await usersModel.findById(ID).select("-password -name -token");
 
     // передажмо інфо з токеном далі

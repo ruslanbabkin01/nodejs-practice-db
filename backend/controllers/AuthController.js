@@ -9,21 +9,22 @@ class AuthController {
   register = async (req, res, next) => {
     // отримуємо дані від користувача і валідуємо
     const { password, email } = req.body;
+
     if (!password || !email) {
       res.status(400);
-      throw new Error("Please, provide fields all required fields");
+      throw new Error("Please, provide all required fields");
     }
 
     // перевіряємо чи є такий користувач в БД
     const candidate = await usersModel.findOne({ email });
 
-    // якщо є - повідомляємо користувачеві
+    // якщо є - повідомляємо що такий користувач вже існує
     if (candidate) {
       res.status(400);
-      throw new Error("Users alredy exist");
+      throw new Error("User already exists");
     }
 
-    // якщо ні - хешуємо пароль
+    // якщо нема - хешуємо пароль
     const hash = bcrypt.hashSync(password, 5);
 
     // зберігаємо користувача в БД

@@ -12,28 +12,26 @@ module.exports = (rolesArr) => {
         throw new Error("Not authorized");
       }
 
-      const { data: id } = jwt.verify(token, "pizza");
-      const user = await usersModel.findById(id);
+      const { data: ID } = jwt.verify(token, process.env.SECRET_KEY);
+      const user = await usersModel.findById(ID);
+
+      const userRoles = user.roles;
+
       let hasRole = false;
-      user.rolesArr.forEach((role) => {
+
+      userRoles.forEach((role) => {
         if (rolesArr.includes(role)) {
           hasRole = true;
         }
-
-        if (!hasRole) {
-          return res.status(403).json({
-            message: "Forbidden",
-            code: 403,
-          });
-        }
-
-        next();
       });
+
+      if (!hasRole) {
+        return res.status(403).json({ code: 403, message: "Forbidden" });
+      }
+
+      next();
     } catch (error) {
-      return res.status(403).json({
-        message: "Forbidden",
-        code: 403,
-      });
+      return res.status(403).json({ code: 403, message: "Forbidden" });
     }
   };
 };

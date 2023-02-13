@@ -21,7 +21,7 @@ filmsRouter.post(
 //отримати всі фільми
 filmsRouter.get(
   "/films",
-  rolesMiddleware(["ADMIN"]),
+  rolesMiddleware(["ADMIN", "MODERATOR"]),
   asyncHandler(filmsController.getAll)
 );
 
